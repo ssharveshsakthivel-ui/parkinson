@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NeuroTrace | Secure Login</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: rgba(56, 189, 248, 0.5);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
+        }
+
+        .flash-error {
+            padding: 12px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            color: #fca5a5;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="space-dust"></div>
+    <div class="ambient-glow orb-primary"></div>
+    <div class="ambient-glow orb-secondary"></div>
+    <div class="glass-grid"></div>
+
+    <div class="app-container" style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
+        <div class="login-container reveal">
+            <section class="panel glass-panel">
+                <div class="panel-header" style="justify-content: center; border-bottom: none; padding-bottom: 10px;">
+                    <h2 style="font-size: 1.8rem; text-align: center; width: 100%; margin-top: 10px;">Secure Login</h2>
+                </div>
+
+                <div style="padding: 0 20px 20px;">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                    <form method="POST" action="{{ url_for('login_page') }}">
+                        <input type="text" name="username" class="auth-input" placeholder="Username (e.g., dr_smith)"
+                            required>
+                        <input type="password" name="password" class="auth-input"
+                            placeholder="Password (e.g., doctor123)" required>
+                        <button class="action-btn" type="submit" style="margin-top: 10px; width: 100%;">
+                            <span class="btn-text">Authenticate Session</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                    </form>
+
+                    <div
+                        style="margin-top: 30px; font-size: 0.85rem; color: rgba(255,255,255,0.5); text-align: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+                        <p style="color: rgba(255,255,255,0.8); font-weight: 500; margin-bottom: 10px;">Mock Accounts
+                            for Testing</p>
+                        <p><strong>Doctor:</strong> dr_smith / doctor123</p>
+                        <p style="margin-top: 5px;"><strong>Patient:</strong> patient_john / patient123</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+
+</html>

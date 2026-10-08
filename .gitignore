@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+venv2/
+.venv/
+env/
+ENV/
+
+# Model artifacts and data
+neurotrace.db
+artifacts/
+artifacts_custom/
+artifacts_efficientnet/
+artifacts_quick/
+artifacts_v2/
+archive/
+pytorch_model/
+.cache/
+
+# Node
+node_modules/
+.npm
+.DS_Store
+.env.local
+Train/

@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NeuroTrace | Doctor Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-user {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Cinematic Background Elements -->
+    <div class="space-dust"></div>
+    <div class="ambient-glow orb-primary"></div>
+    <div class="ambient-glow orb-secondary"></div>
+    <div class="glass-grid"></div>
+
+    <nav class="top-nav reveal">
+        <div class="nav-brand">NeuroTrace <span class="badge-pill"
+                style="padding: 2px 10px; font-size: 0.7rem;">Clinical</span></div>
+        <div class="nav-links">
+            <span class="nav-user">Dr. {{ session['full_name'] }}</span>
+            <a href="{{ url_for('logout') }}" class="btn-logout">Secure Logout</a>
+        </div>
+    </nav>
+
+    <div class="app-container" style="padding-top: 2rem;">
+        <header class="hero-header reveal">
+            <div class="badge-pill">NeuroVision AI Lab</div>
+            <h1 class="hero-title">Advance Level Parkinson <br> <span class="text-gradient">Diagnostic Engine</span>
+            </h1>
+            <p class="hero-subtitle">Upload a neural MRI/scan for ultra-fast Custom CNN inference (99.59% accuracy).</p>
+        </header>
+
+        <main class="dashboard-grid">
+            <!-- Input Section -->
+            <section class="panel glass-panel input-panel reveal" style="animation-delay: 0.1s;">
+                <div class="panel-header">
+                    <div class="icon-ring">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="17 8 12 3 7 8" />
+                            <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                    </div>
+                    <h2>Input Feed</h2>
+                </div>
+
+                <form id="predictForm" class="upload-form">
+                    <label id="dropZone" class="interactive-zone" for="imageInput">
+                        <input id="imageInput" name="file" type="file" accept=".png,.jpg,.jpeg,.bmp,.webp" required>
+                        <div class="zone-content">
+                            <div class="upload-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="url(#upload-grad)"
+                                    stroke-width="1.5">
+                                    <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M12 12v9" />
+                                    <path d="m8 16 4-4 4 4" />
+                                    <defs>
+                                        <linearGradient id="upload-grad" x1="0" y1="0" x2="24" y2="24">
+                                            <stop stop-color="#38bdf8" />
+                                            <stop offset="1" stop-color="#818cf8" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <p class="zone-title">Securely drop scan here</p>
+                            <p class="zone-subtitle">or click to browse local files</p>
+                        </div>
+                        <div id="previewWrap" class="preview-wrap">
+                            <img id="previewImage" alt="Scan preview">
+                            <div class="scanline"></div>
+                        </div>
+                    </label>
+                    <button id="predictButton" class="action-btn" type="submit">
+                        <span class="btn-text">Initialize Inference</span>
+                        <div class="btn-glow"></div>
+                        <div class="spinner"></div>
+                    </button>
+                </form>
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <p id="statusText">System Ready</p>
+                </div>
+            </section>
+
+            <!-- Output Section -->
+            <section id="resultsPanel" class="panel glass-panel output-panel reveal" style="animation-delay: 0.2s;">
+                <div class="panel-header">
+                    <div class="icon-ring">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="16" x2="12" y2="12" />
+                            <line x1="12" y1="8" x2="12.01" y2="8" />
+                        </svg>
+                    </div>
+                    <h2>Analytics Engine</h2>
+                </div>
+
+                <div id="emptyResult" class="empty-state">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.1)"
+                        stroke-width="1">
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                        <line x1="12" y1="22.08" x2="12" y2="12" />
+                    </svg>
+                    <p>Awaiting scan input for analysis.</p>
+                </div>
+
+                <div id="activeResult" class="active-result hidden">
+                    <div id="diagnosisCard" class="diagnosis-card">
+                        <div class="diagnosis-hero">
+                            <div id="resultIcon" class="result-icon">
+                                <!-- Injected via JS -->
+                            </div>
+                            <div class="diagnosis-text">
+                                <p class="diagnosis-label">Primary Classification</p>
+                                <h3 id="mainDiagnosis">Evaluating...</h3>
+                            </div>
+                        </div>
+                        <div class="confidence-display">
+                            <span id="mainConfidence" class="confidence-val">--%</span>
+                            <span class="confidence-label">Confidence Interval</span>
+                        </div>
+                    </div>
+
+                    <div class="probability-breakdown">
+                        <h4>Probability Matrix</h4>
+                        <div class="matrix-grid">
+                            <!-- Bars injected via JS -->
+                            <div id="bars" class="bars"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+        <footer class="system-footer reveal" style="animation-delay: 0.3s;">
+            <div id="meta" class="model-meta">
+                <!-- Injected via JS -->
+            </div>
+            <p class="disclaimer">For ML Research purposes only. <strong>Not for clinical medical diagnosis.</strong>
+            </p>
+        </footer>
+    </div>
+
+    <script id="model-info" type="application/json">{{ model_info|safe }}</script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
+</html>

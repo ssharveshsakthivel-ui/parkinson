@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NeuroTrace | Advanced Parkinson Predictor</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <div class="space-dust"></div>
+  <div class="ambient-glow orb-primary"></div>
+  <div class="ambient-glow orb-secondary"></div>
+  <div class="glass-grid"></div>
+
+  <div class="app-container"
+    style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh;">
+    <header class="hero-header reveal" style="text-align: center;">
+      <div class="badge-pill">NeuroVision AI Lab</div>
+      <h1 class="hero-title" style="font-size: 3.5rem;">NeuroTrace <br> <span class="text-gradient">Diagnostic
+          Platform</span></h1>
+      <p class="hero-subtitle" style="margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Access the state-of-the-art cinematic web portal powered by an embedded PyTorch Custom CNN with 99.59% accuracy.
+      </p>
+
+      <div style="display: flex; gap: 20px; justify-content: center; margin-top: 2rem;">
+        <a href="{{ url_for('login_page') }}" class="action-btn"
+          style="text-decoration: none; display: inline-flex; width: auto; padding: 0 40px;">
+          <span class="btn-text">Doctor Portal</span>
+          <div class="btn-glow"></div>
+        </a>
+        <a href="{{ url_for('login_page') }}" class="action-btn"
+          style="text-decoration: none; display: inline-flex; width: auto; padding: 0 40px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+          <span class="btn-text">Patient Portal</span>
+          <div class="btn-glow"></div>
+        </a>
+      </div>
+    </header>
+  </div>
+</body>
+
+</html>
