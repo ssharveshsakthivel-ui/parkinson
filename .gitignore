@@ -25,5 +25,5 @@ pytorch_model/
 node_modules/
 .npm
 .DS_Store
-.env.local
+
 Train/
