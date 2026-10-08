@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
-export default function DiagnosticReport() {
+function ReportContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const reportId = searchParams.get("id");
@@ -201,5 +201,13 @@ export default function DiagnosticReport() {
         }
       `}} />
         </div>
+    );
+}
+
+export default function DiagnosticReport() {
+    return (
+        <Suspense fallback={<div style={{ color: "white", textAlign: "center", marginTop: "20vh" }}>Loading Report...</div>}>
+            <ReportContent />
+        </Suspense>
     );
 }
