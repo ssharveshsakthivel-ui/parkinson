@@ -240,8 +240,13 @@ DEV_ALLOWED_ORIGINS = [
 CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": DEV_ALLOWED_ORIGINS}})
 app.secret_key = "neurotrace_super_secret_key"
 
-SUPABASE_URL = "https://rglnzkvkubmdkzydosdb.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnbG56a3ZrdWJtZGt6eWRvc2RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NjAzMjUsImV4cCI6MjA4ODAzNjMyNX0.b2hd5vbdbcwbOXvAiF6r_41bpy8J8othe-asHJOjHg8"
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+SUPABASE_URL = os.getenv("NEXT_PUBLIC_SUPABASE_URL", "https://rglnzkvkubmdkzydosdb.supabase.co")
+SUPABASE_KEY = os.getenv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnbG56a3ZrdWJtZGt6eWRvc2RiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NjAzMjUsImV4cCI6MjA4ODAzNjMyNX0.b2hd5vbdbcwbOXvAiF6r_41bpy8J8othe-asHJOjHg8")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def get_authed_db_client(token: str) -> Client:
