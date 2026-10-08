@@ -46,8 +46,7 @@ export async function fetchApi(endpoint: string, options: RequestInit = {}) {
     if (
         options.body &&
         typeof options.body === 'string' &&
-        !(options.body instanceof FormData) &&
-        !fetchOptions.headers?.hasOwnProperty('Content-Type')
+        !("Content-Type" in (fetchOptions.headers || {}))
     ) {
         fetchOptions.headers = {
             ...fetchOptions.headers,
