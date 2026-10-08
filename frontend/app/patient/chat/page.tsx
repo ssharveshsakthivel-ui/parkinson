@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
-export default function PatientChat() {
+function ChatContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const doctorId = searchParams.get("doctor");
@@ -200,5 +200,13 @@ export default function PatientChat() {
                 </form>
             </div>
         </>
+    );
+}
+
+export default function PatientChat() {
+    return (
+        <Suspense fallback={<div style={{ color: "white", textAlign: "center", marginTop: "20vh" }}>Loading Secure Link...</div>}>
+            <ChatContent />
+        </Suspense>
     );
 }
