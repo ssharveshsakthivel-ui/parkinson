@@ -247,7 +247,6 @@ export default function PatientDashboard() {
                         <QrReader
                             onResult={handleScan}
                             constraints={{ facingMode: 'environment' }}
-                            ScanRegionStyle={{ borderColor: "#0ea5e9" }}
                         />
                     </div>
                     <button onClick={() => setScanning(false)} className="mt-8 px-6 py-2 rounded-full border border-slate-300 bg-white text-slate-600 hover:bg-slate-100 shadow-sm">Cancel Scan</button>
